@@ -1,6 +1,5 @@
 #-----------------------------------------------------------------------------------------------
 FROM docker.io/fabric8/java-centos-openjdk8-jdk:latest AS BUILD
-VOLUME /tmp
 ENV TZ="Europe/Warsaw"
 ENV GRADLE_URL=https://services.gradle.org/distributions/gradle-5.6.3-bin.zip
 

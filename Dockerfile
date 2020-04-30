@@ -27,7 +27,7 @@ RUN ls -la build/libs/
 
 
 #-----------------------------------------------------------------------------------------------
-FROM openjdk:8-jdk-alpine AS RUN
+FROM openjdk:8-jdk-alpine
 RUN apk add --no-cache tzdata bash
 VOLUME /tmp
 COPY --from=BUILD /var/app-src/build/libs/*.jar /app.jar

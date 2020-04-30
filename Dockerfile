@@ -23,13 +23,14 @@ RUN pwd
 #RUN chmod u+x gradlew
 RUN gradle build -Prel
 RUN ls -la build/libs/
+RUN cp -p build/libs/*.jar /app.jar
 
 
 #-----------------------------------------------------------------------------------------------
 FROM openjdk:8-jdk-alpine
 RUN apk add --no-cache tzdata bash
 VOLUME /tmp
-COPY --from=BUILD /var/app-src/build/libs/*.jar /app.jar
+COPY --from=BUILD /app.jar /app.jar
 EXPOSE 8080 8081
 ENV TZ="Europe/Warsaw"
 ENV JAVA_OPTS=""

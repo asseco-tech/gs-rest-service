@@ -6,6 +6,7 @@ ENV GRADLE_URL=https://services.gradle.org/distributions/gradle-5.6.3-bin.zip
 USER root
 RUN yum -y install curl unzip
 
+RUN mkdir -p /opt/gradle
 WORKDIR /opt/gradle
 RUN curl -L $GRADLE_URL -o gradle-bin.zip
 RUN ls -la
@@ -17,7 +18,6 @@ ENV PATH=${GRADLE_HOME}/bin:${PATH}
 RUN gradle -v
 
 COPY complete /var/app-src
-
 WORKDIR /var/app-src
 RUN pwd
 #RUN chmod u+x gradlew

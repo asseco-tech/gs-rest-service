@@ -1,11 +1,14 @@
 #-----------------------------------------------------------------------------------------------
+#-- build image
 FROM docker.io/fabric8/java-centos-openjdk8-jdk:latest AS BUILD
 ENV TZ="Europe/Warsaw"
 ENV GRADLE_URL=https://services.gradle.org/distributions/gradle-5.6.3-bin.zip
 
+#-- install tools
 USER root
 RUN yum -y install curl unzip
 
+#-- install Gradle
 RUN mkdir -p /opt/gradle
 WORKDIR /opt/gradle
 RUN curl -L $GRADLE_URL -o gradle-bin.zip
@@ -17,21 +20,27 @@ ENV GRADLE_HOME=/usr/bin/gradle
 ENV PATH=${GRADLE_HOME}/bin:${PATH}
 RUN gradle -v
 
+#-- copy source and build
 COPY complete /var/app-src
 WORKDIR /var/app-src
 RUN pwd
 #RUN chmod u+x gradlew
+#RUN ./gradlew build -Prel
 RUN gradle build -Prel
 RUN ls -la build/libs/
 RUN cp -p build/libs/*.jar /app.jar
 
 
 #-----------------------------------------------------------------------------------------------
+#-- run image
 FROM openjdk:8-jdk-alpine
 RUN apk add --no-cache tzdata bash
 VOLUME /tmp
+
+#-- copy jar from build image
 COPY --from=BUILD /app.jar /app.jar
-EXPOSE 8080 8081
+
+EXPOSE 8080
 ENV TZ="Europe/Warsaw"
 ENV JAVA_OPTS=""
 ENV APP_OPTIONS="--server.port=8080"

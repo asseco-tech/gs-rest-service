@@ -1,12 +1,12 @@
 #-----------------------------------------------------------------------------------------------
 #-- build image
-FROM docker.io/fabric8/java-centos-openjdk8-jdk:latest AS BUILD
+FROM docker.io/openjdk:8-jdk-alpine AS BUILD
 ENV TZ="Europe/Warsaw"
 ENV GRADLE_URL=https://services.gradle.org/distributions/gradle-5.6.3-bin.zip
 
 #-- install tools
 USER root
-RUN yum -y install curl unzip
+RUN apk add --no-cache tzdata curl unzip
 
 #-- install Gradle
 RUN mkdir -p /opt/gradle
@@ -33,7 +33,7 @@ RUN cp -p build/libs/*.jar /app.jar
 
 #-----------------------------------------------------------------------------------------------
 #-- run image
-FROM openjdk:8-jdk-alpine
+FROM docker.io/openjdk:8-jre-alpine
 RUN apk add --no-cache tzdata bash
 VOLUME /tmp
 

@@ -1,6 +1,6 @@
 #-----------------------------------------------------------------------------------------------
 #-- build image
-FROM docker.io/openjdk:8-jdk-alpine AS BUILD
+FROM openjdk:8-jdk-alpine AS BUILD
 ENV TZ="Europe/Warsaw"
 ENV GRADLE_URL=https://services.gradle.org/distributions/gradle-5.6.3-bin.zip
 
@@ -33,7 +33,7 @@ RUN cp -p build/libs/*.jar /app.jar
 
 #-----------------------------------------------------------------------------------------------
 #-- run image
-FROM docker.io/openjdk:8-jre-alpine
+FROM openjdk:8-jre-alpine
 RUN apk add --no-cache tzdata bash
 VOLUME /tmp
 

@@ -34,7 +34,7 @@ RUN cp -p build/libs/*.jar /app.jar
 #-----------------------------------------------------------------------------------------------
 #-- run image
 FROM openjdk:8-jre-alpine
-RUN apk add --no-cache tzdata bash
+RUN apk add --no-cache tzdata bash curl
 VOLUME /tmp
 
 #-- copy jar from build image
